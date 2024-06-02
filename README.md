@@ -2,7 +2,8 @@
 
 This project showcases how LLMs can be trained and used to intuitively filter
 structured and nested document collections, commonly found in web applications.
-The goal is to build a smart search system.
+The goal is to build a smart search system capable of interpreting natural
+language queries and generating accurate NoSQL queries.
 
 ## Table of Contents
 
@@ -12,7 +13,7 @@ The goal is to build a smart search system.
     - [Instruction](#instruction)
     - [Input](#input)
     - [Output](#output)
-- [User-feedback for Retrieval Augmented Few-Shot Prompting](#user-feedback-for-retrieval-augmented-few-shot-prompting)
+- [User-feedback for Retrieval-Augmented Few-Shot Prompting](#user-feedback-for-retrieval-augmented-few-shot-prompting)
   - [Example Realtime Improvement](#example-realtime-improvement)
   - [Negative feedback](#negative-feedback)
 - [Custom Query Operators](#custom-query-operators)
@@ -23,14 +24,14 @@ The goal is to build a smart search system.
 
 ## Challenges
 
-Using natural language to filter large datasets poses several challenges:
+Filtering large datasets using natural language poses several challenges:
 
-1. Accuracy - Only show documents that match all query criteria
-2. Ambiguity - Account for synonyms, abbreviations, paraphrasation, etc
-3. Latency - User patience is a limited resource
-4. Context - Terms like "by me" or "yesterday" require additional context to
-   resolve correctly
-5. Ease of Use - Prevent technical details from surfacing to the user
+1. Accuracy - Showing only documents that match all query criteria
+2. Ambiguity - Accounting for synonyms, abbreviations, paraphrasation, etc
+3. Latency - User patience being a limited resource
+4. Context - Resolving terms like 'by me' or 'yesterday' correctly requires
+   additional context
+5. Ease of Use - Preventing technical details from surfacing to the users
 
 To overcome these challenges we fine-tune a minimally sized language model to
 generate NoSQL queries.
@@ -48,8 +49,8 @@ an example after clicking the "serviceDetails" field:
 ![Spa Query](demo_application_open.png)
 
 Prompting for bookings with "access to the spa area" correctly yields all two
-entries that include a service that contains the text "Spa", loosly intepreting
-the input phrase, as shown in the image above.
+entries that include a service that contains the text "Spa", loosely
+interpreting the input phrase, as shown in the image above.
 
 The generated query for this example looks as follows:
 
@@ -140,7 +141,7 @@ existing field names and values in the target documents.
 #### Example
 
 See
-[User-feedback for Retrevial Augmented Few-Shot Prompting](#user-feedback-for-retrevial-augmented-few-shot-prompting)
+[User-feedback for Retrieval-Augmented Few-Shot Prompting](#user-feedback-for-retrieval-augmented-few-shot-prompting)
 
 #### Context
 
@@ -181,7 +182,7 @@ The output NoSQL query, formatted as JSON.
 
 </details>
 
-## User-feedback for Retrevial Augmented Few-Shot Prompting
+## User-feedback for Retrieval-Augmented Few-Shot Prompting
 
 We integrate user-feedback by storing voted good queries in a vector database.
 Prior to query generation the most similar voted search and query is included as
@@ -224,7 +225,7 @@ This query is clearly missing the currency aspect! We can refine the query as
 }
 ```
 
-We can now use the feedback button to include this query as a good example. Now
+We can now use the feedback button to mark this query as a good example. Now
 when we input `over 500 USD`, the system will use in-context learning from the
 previous query to correctly generate the following query:
 
@@ -269,14 +270,14 @@ the following operators:
 ## Synthetic Training Data
 
 The training set was generated using a multi-step process on a high performance
-large coding model. The task was broken down into the following steps:
+large coding model. The task was divided into the following steps:
 
 1. Generate a diverse set of document types
 2. For each document type generate a json-schema
 3. Generate 6 sample entries for each schema
 4. Given those samples, generate statements that are only true for one of the
    samples
-5. Simplyfy / shorten those statements
+5. Simplify / shorten those statements
 6. Given the schema and a statement, use CoT to generate a NoSQL query
 7. Validate that the generated query matches only exactly one sample
 8. Add valid queries to the training set and failed queries to a failure-case
@@ -284,7 +285,7 @@ large coding model. The task was broken down into the following steps:
 
 ![Dataset](dataset_architecture.png)
 
-### Iterative Training
+### Iterative Training Process
 
 Once between 100 to 300 valid queries are collected using `Mistral-large` with
 few-shot prompting, we found that a fine-tuned `Mixtral-8x7b` already
@@ -292,7 +293,7 @@ outperformed the initial approach. We then repeated steps 6-8 using the newly
 trained model on the failure-case set, doubling our success-rate. The ratio of
 valid to failed queries was used to evaluate base-model and hyperparameter
 performance. This process was repeated until a sufficiently accurate and fast
-model was trained.
+model had been trained.
 
 ### Related Training Data
 
@@ -306,4 +307,4 @@ performance on the NoSQL task as well.
 We successfully generated over 1200 training samples. We then trained several
 adapters for a variety of models and found `codellama-13b-instruct` to strike a
 great balance between speed and accuracy. The training set and LoRA adapter can
-be found in the `training` and `inference` directory in this repository.
+be found in the `training` and `inference` directories in this repository.
