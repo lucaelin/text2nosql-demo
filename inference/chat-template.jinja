@@ -1,0 +1,14 @@
+<s>[INST] <<SYS>>
+{{ (messages|selectattr('role', 'equalto', 'system')|list|last).content|trim if (messages|selectattr('role', 'equalto', 'system')|list) else '' }}
+<</SYS>>
+{% for message in messages %}
+{% if message['role'] == 'user' %}
+{{ message['content']|trim -}}
+{% elif message['role'] == 'user_context' %}
+{{ message['content']|trim -}}
+{% elif message['role'] == 'assistant' %}
+[/INST]
+{{ message['content']|trim -}}
+[INST]
+{% endif %}
+{% endfor %}

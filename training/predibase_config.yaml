@@ -1,0 +1,55 @@
+model_type: llm
+input_features:
+  - name: prompt
+    type: text
+    preprocessing:
+      max_sequence_length: null
+    column: prompt
+output_features:
+  - name: output
+    type: text
+    preprocessing:
+      max_sequence_length: null
+    column: output
+prompt:
+  template: |2-
+     <s>[INST] <<SYS>>
+    {task}
+    <</SYS>>
+    {input} [/INST]
+preprocessing:
+  split:
+    type: random
+    probabilities:
+      - 0.95
+      - 0
+      - 0.05
+  global_max_sequence_length: 4096
+adapter:
+  type: lora
+  r: 16
+generation:
+  max_new_tokens: 1024
+trainer:
+  type: finetune
+  epochs: 1
+  optimizer:
+    type: paged_adam
+  batch_size: 1
+  eval_steps: 100
+  learning_rate: 0.0002
+  eval_batch_size: 2
+  steps_per_checkpoint: 100
+  learning_rate_scheduler:
+    decay: cosine
+    warmup_fraction: 0.03
+  gradient_accumulation_steps: 16
+  enable_gradient_checkpointing: true
+backend:
+  trainer:
+    num_workers: 1
+base_model: codellama/CodeLlama-13b-Instruct-hf
+quantization:
+  bits: 4
+  bnb_4bit_compute_dtype: bfloat16
+ludwig_version: 0.10.1.dev
