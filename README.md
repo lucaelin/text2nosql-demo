@@ -4,6 +4,23 @@ This project showcases how LLMs can be trained and used to intuitively filter
 structured and nested document collections, commonly found in web applications.
 The goal is to build a smart search system.
 
+## Table of Contents
+
+- [Challenges](#challenges)
+- [Demo application](#demo-application)
+  - [Prompt Format](#prompt-format)
+    - [Instruction](#instruction)
+    - [Input](#input)
+    - [Output](#output)
+- [User-feedback for Retrieval Augmented Few-Shot Prompting](#user-feedback-for-retrieval-augmented-few-shot-prompting)
+  - [Example Realtime Improvement](#example-realtime-improvement)
+  - [Negative feedback](#negative-feedback)
+- [Custom Query Operators](#custom-query-operators)
+- [Synthetic Training Data](#synthetic-training-data)
+  - [Iterative Training](#iterative-training)
+  - [Related Training Data](#related-training-data)
+- [Artifacts](#artifacts)
+
 ## Challenges
 
 Using natural language to filter large datasets poses several challenges:
@@ -21,7 +38,7 @@ generate NoSQL queries.
 ## Demo application
 
 The demo application included in this repository uses a hotel booking dataset
-with multiple nested fields and lists: 
+with multiple nested fields and lists:
 
 ![Demo application](demo_application.png)
 
