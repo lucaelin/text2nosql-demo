@@ -21,10 +21,13 @@ generate NoSQL queries.
 ## Demo application
 
 The demo application included in this repository uses a hotel booking dataset
-with multiple nested fields and lists: ![Demo application](demo_application.png)
+with multiple nested fields and lists: 
+
+![Demo application](demo_application.png)
 
 Nested fields are shown as links and allow you to unveil a nested table. Here is
 an example after clicking the "serviceDetails" field:
+
 ![Spa Query](demo_application_open.png)
 
 Prompting for bookings with "access to the spa area" correctly yields all two
@@ -169,6 +172,7 @@ an example. This allows for realtime improvements to the system as well as
 eliminating mistakes prior to deployment.
 
 Here is an overview of the demo application architecture and prompt design:
+
 ![Architecture](application_architecture.png)
 
 ### Example Realtime Improvement
