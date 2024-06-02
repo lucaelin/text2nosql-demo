@@ -287,7 +287,7 @@ large coding model. The task was divided into the following steps:
 
 ### Iterative Training Process
 
-Once between 100 to 300 valid queries are collected using `Mistral-large` with
+Once between 100 to 300 valid queries are collected using `Mistral-medium` with
 few-shot prompting, we found that a fine-tuned `Mixtral-8x7b` already
 outperformed the initial approach. We then repeated steps 6-8 using the newly
 trained model on the failure-case set, doubling our success-rate. The ratio of
