@@ -12,7 +12,7 @@
   "dependencies": {
     "@types/express": "^4.17.21",
     "@xenova/transformers": "^2.14.1",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "fastembed": "^1.14.1",
     "json5": "^2.2.3",
     "mingo": "^6.4.15",
